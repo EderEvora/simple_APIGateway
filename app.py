@@ -2,29 +2,54 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
-users = [{'id': 1, 'name': 'Eder Evora'},
-        {'id': 2, 'name': 'Luis Ramos'}]
+#Datas
+users = [
+    {'id': 1, 'name': 'Eder Evora'},
+    {'id': 2, 'name': 'Luis Ramos'}
+]
 
-#Search(all)
-=======
-users = [{'name': 'Eder Evora'},
-        {'name': 'Luis Ramos'}]
+products = [ 
+    {'id': 1, 'name': 'Laptop', 'brand': 'Huawei', 'price': 30000}, 
+    {'id': 2, 'name': 'Mouse', 'brand': 'Mitsai', 'price': 1500}, 
+    {'id': 3, 'name': 'Telemovel', 'brand': 'Xioami Redmi', 'price': 18000} 
+]
 
->>>>>>> 5c29af0a9a492a44a45f8a9ba1b497646ea90eed
-@app.route('/users', methods= ['GET'])
+orders = [
+    {
+        'id': 1,
+        'user_id': 1,
+        'products': [1, 2], 
+        'total': 31500
+    },
+    {
+        'id': 1,
+        'user_id': 2,
+        'products': [3], 
+        'total': 18000
+    }
+]
+
+# Search(all)
+@app.route('/users', methods=['GET'])
 def get_users():
     return jsonify(users)
 
-<<<<<<< HEAD
-#Search(one)
-@app.route('/users/<int:id>', methods= ['GET'])
-def get_users_by_id(id):
-    for user in users:
-        if user.get('id') == id:
-            return jsonify(user)
 
-=======
->>>>>>> 5c29af0a9a492a44a45f8a9ba1b497646ea90eed
-app.run(port= 5000, host= 'localhost', debug= True)
+@app.route('/products', methods=['GET'])
+def get_products():
+    return jsonify(products)
+
+
+@app.route('/orders', methods=['GET'])
+def get_orders():
+    return jsonify(orders)
+
+# Search(one)
+#@app.route('/users/<int:id>', methods=['GET'])
+#def get_users_by_id(id):
+    #for user in users:
+        #if user.get('id') == id:
+            #return jsonify(user)
+
+app.run(port=5000, host='localhost', debug=True)
 
