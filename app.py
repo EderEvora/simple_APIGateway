@@ -22,7 +22,7 @@ orders = [
         'total': 31500
     },
     {
-        'id': 1,
+        'id': 2,
         'user_id': 2,
         'products': [3], 
         'total': 18000
@@ -59,6 +59,13 @@ def edit_products_by_id(id):
         if product.get('id') == id:
             products[indice].update(product_change)
             return jsonify(products[indice])
+
+#Create
+@app.route('/users', methods= ['POST'])
+def add_user():
+    new_user = request.get_json()
+    users.append(new_user)
+    return jsonify(users)
 
 
 app.run(port=5000, host='localhost', debug=True)
