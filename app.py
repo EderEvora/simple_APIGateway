@@ -29,7 +29,7 @@ orders = [
     }
 ]
 
-# Search(all)
+#Search(all)
 @app.route('/users', methods=['GET'])
 def get_users():
     return jsonify(users)
@@ -44,12 +44,21 @@ def get_products():
 def get_orders():
     return jsonify(orders)
 
-# Search(one)
-#@app.route('/users/<int:id>', methods=['GET'])
-#def get_users_by_id(id):
-    #for user in users:
-        #if user.get('id') == id:
-            #return jsonify(user)
+#Search(one)
+@app.route('/users/<int:id>', methods=['GET'])
+def get_users_by_id(id):
+    for user in users:
+        if user.get('id') == id:
+            return jsonify(user)
+
+#Edit
+@app.route('/products/<int:id>', methods=['PUT'])
+def edit_products_by_id(id):
+    product_change = request.get_json()
+    for indice,product in enumerate (products):
+        if product.get('id') == id:
+            products[indice].update(product_change)
+            return jsonify(products[indice])
+
 
 app.run(port=5000, host='localhost', debug=True)
-
