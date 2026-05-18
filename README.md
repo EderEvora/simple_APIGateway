@@ -1,85 +1,179 @@
-📘 API Monolítica – Sistema de Loja
-📌 Descrição
-Este projeto consiste em uma API monolítica desenvolvida em Python utilizando Flask, que simula um sistema simples de loja (e-commerce).
+# 📘 API Monolítica – Sistema de Loja
+
+## 📌 Descrição
+
+Este projeto consiste em uma **API monolítica desenvolvida em Python utilizando Flask**, que simula um sistema simples de loja (e-commerce).
+
 A aplicação centraliza todas as funcionalidades em um único sistema, incluindo:
 
-Gestão de utilizadores
-Gestão de produtos
-Gestão de pedidos
+* Gestão de utilizadores
+* Gestão de produtos
+* Gestão de pedidos
 
+---
 
-🧱 Arquitetura
-Este projeto segue o modelo de arquitetura monolítica, onde:
+## 🧱 Arquitetura
 
-Todas as funcionalidades estão integradas em uma única aplicação
-Existe um único ponto de entrada
-Não há separação em serviços independentes
+Este projeto segue o modelo de **arquitetura monolítica**, onde:
 
+* Todas as funcionalidades estão integradas em uma única aplicação
+* Existe um único ponto de entrada
+* Não há separação em serviços independentes
 
-🛠️ Tecnologias Utilizadas
+---
 
-Python
-Flask
-JSON (armazenamento em memória)
+## 🛠️ Tecnologias Utilizadas
 
+* Python
+* Flask
+* JSON (armazenamento em memória)
 
-🚀 Como Executar
-1. Instalar dependências
-bashpip install flask requests
-2. Executar a aplicação
-bashpython app.py
+---
 
-Para escalar, é possível passar a porta como argumento:
-bashpython app.py 5001
-python app.py 5002
+## 🚀 Como Executar
 
-3. Acessar a API
+### 1. Instalar dependências
+
+```bash
+pip install flask requests
+```
+
+### 2. Executar a aplicação
+
+```
+python app.py
+```
+
+> Para escalar, passar a porta como argumento:
+> ```
+> python app.py 5001
+> python app.py 5002
+> ```
+
+### 3. Acessar a API
 A API estará disponível em:
-http://localhost:5000
 
-📡 Endpoints
-👤 Utilizadores
-🔹 Listar todos os utilizadores
+```
+http://localhost:5000
+```
+
+---
+## 📡 Endpoints
+### 👤 Utilizadores
+#### 🔹 Listar todos os utilizadores
+
+```
 GET /users
-🔹 Buscar utilizador por ID
+```
+
+#### 🔹 Buscar utilizador por ID
+
+```
 GET /users/{id}
-🔹 Criar utilizador
+```
+
+#### 🔹 Criar utilizador
+
+```
 POST /users
+```
+
 📥 Body (JSON):
-json{
+
+```
+{
   "id": 3,
   "name": "Novo Usuario"
 }
+```
 
-📦 Produtos
-🔹 Listar todos os produtos
+---
+### 📦 Produtos
+#### 🔹 Listar todos os produtos
+
+```
 GET /products
-🔹 Editar produto
+```
+
+#### 🔹 Editar produto
+
+```
 PUT /products/{id}
+```
+
 📥 Body (JSON):
-json{
+
+```
+{
   "price": 20000
 }
+```
 
-🛒 Pedidos
-🔹 Listar todos os pedidos
+---
+### 🛒 Pedidos
+#### 🔹 Listar todos os pedidos
+
+```
 GET /orders
+```
 
-🆕 Alterações para Escalabilidade (Trabalho 02)
-As seguintes alterações foram feitas no app.py para suportar múltiplas instâncias:
+---
+## 🧪 Testes
+A API pode ser testada utilizando:
 
-A porta passou a ser configurável via argumento no terminal (sys.argv)
-Foi adicionado um identificador de instância (INSTANCE = f"instance-{PORT}")
-Todas as respostas passaram a incluir o campo "instance" no JSON, para identificar qual instância respondeu a cada requisição
+* Postman
+* Browser (para requisições GET)
+
+### Teste de carga
+
+Para simular múltiplos utilizadores em simultâneo:
+
+```
+python teste_carga.py
+```
+
+O script cria 50 threads em simultâneo e apresenta no final:
+* Total de requisições
+* Requisições com sucesso / erro
+* Tempo médio de resposta
+* Duração total do teste
+
+Para alterar o número de utilizadores, editar a última linha do ficheiro `teste_carga.py`:
+```
+run_teste(50)  # alterar para o número desejado
+```
+
+---
+## ⚠️ Limitações
+
+* Dados armazenados apenas em memória (sem base de dados)
+* Não possui autenticação
+* Tratamento de erros limitado
+* Não escalável (característica da arquitetura monolítica)
+
+---
+## 🆕 Alterações – Escalabilidade (Trabalho 02)
+
+As seguintes alterações foram feitas no `app.py`:
+
+* A porta passou a ser configurável via argumento no terminal (`sys.argv`)
+* Foi adicionado um identificador de instância (`INSTANCE = f"instance-{PORT}"`)
+* Todas as respostas passaram a incluir o campo `"instance"` no JSON, para identificar qual instância respondeu
 
 Exemplo de resposta:
-json{
+```
+{
   "instance": "instance-5001",
   "data": [...]
 }
-Foi também adicionado um load balancer (load_balancer.py) que distribui as requisições entre as instâncias usando round-robin.
-Executar com escala
-bash# Terminal 1
+```
+
+Foi adicionado o `load_balancer.py` que distribui as requisições entre instâncias usando **round-robin**.
+
+### Executar com escala
+
+```
+# Terminal 1
 python app.py 5001
 
 # Terminal 2
@@ -87,37 +181,22 @@ python app.py 5002
 
 # Terminal 3
 python load_balancer.py
+```
 
-🧪 Testes
-A API pode ser testada utilizando:
+---
+## 📊 Vantagens
 
-Postman
-Browser (para requisições GET)
+* Simples de desenvolver e testar
+* Fácil de entender
+* Ideal para projetos pequenos
 
-Teste de carga
-bashpython teste_carga.py
+---
+## ❌ Desvantagens
 
-⚠️ Limitações
+* Difícil de escalar
+* Alta dependência entre componentes
+* Alterações podem impactar todo o sistema
 
-Dados armazenados apenas em memória (sem base de dados)
-Não possui autenticação
-Tratamento de erros limitado
-Não escalável (característica da arquitetura monolítica)
-
-
-📊 Vantagens
-
-Simples de desenvolver e testar
-Fácil de entender
-Ideal para projetos pequenos
-
-
-❌ Desvantagens
-
-Difícil de escalar
-Alta dependência entre componentes
-Alterações podem impactar todo o sistema
-
-
-👨‍💻 Autor
+---
+## 👨‍💻 Autor
 Projeto desenvolvido para fins académicos.
