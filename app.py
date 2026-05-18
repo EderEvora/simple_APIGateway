@@ -1,6 +1,10 @@
 from flask import Flask, jsonify, request
+import sys
 
 app = Flask(__name__)
+
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
+INSTANCE = f"instance-{PORT}"
 
 #Datas
 users = [
@@ -32,24 +36,27 @@ orders = [
 #Search(all)
 @app.route('/users', methods=['GET'])
 def get_users():
-    return jsonify(users)
+    print(f"[{INSTANCE}] GET /users")
+    return jsonify({'instance': INSTANCE, 'data': users})
 
 
 @app.route('/products', methods=['GET'])
 def get_products():
-    return jsonify(products)
+    print(f"[{INSTANCE}] GET /products")
+    return jsonify({'instance': INSTANCE, 'data': products})
 
 
 @app.route('/orders', methods=['GET'])
 def get_orders():
-    return jsonify(orders)
+    print(f"[{INSTANCE}] GET /orders")
+    return jsonify({'instance': INSTANCE, 'data': orders})
 
 #Search(one)
 @app.route('/users/<int:id>', methods=['GET'])
 def get_users_by_id(id):
     for user in users:
         if user.get('id') == id:
-            return jsonify(user)
+            return jsonify({'instance': INSTANCE, 'data': user})
 
 #Edit
 @app.route('/products/<int:id>', methods=['PUT'])
@@ -58,14 +65,14 @@ def edit_products_by_id(id):
     for indice,product in enumerate (products):
         if product.get('id') == id:
             products[indice].update(product_change)
-            return jsonify(products[indice])
+            return jsonify({'instance': INSTANCE, 'data': products[indice]})
 
 #Create
 @app.route('/users', methods= ['POST'])
 def add_user():
     new_user = request.get_json()
     users.append(new_user)
-    return jsonify(users)
+    return jsonify({'instance': INSTANCE, 'data': users})
 
 
-app.run(port=5000, host='localhost', debug=True)
+app.run(port=PORT, host='localhost', debug=True)
