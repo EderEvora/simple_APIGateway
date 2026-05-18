@@ -1,4 +1,4 @@
-# 📘 API Monolítica – Sistema de Loja
+# 📘 API Monolítica – Sistema de loja e-commerce
 
 ## 📌 Descrição
 
